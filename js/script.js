@@ -13,23 +13,11 @@ $(document).ready(function(){
     if(start){
 
         var randomNum = Math.floor(Math.random()*4)+1;
-    simonNumbers.push(randomNum);
+        simonNumbers.push(randomNum);
 
-   selectPiece(randomNum);
+        selectPiece(randomNum);
 
-        $(".piece").click(function(){
-
-
-           
-
-            
-            selectPieceAndCheck($(this).attr("class").split(' ')[1]);
-
-            
-            
-            console.log(simonNumbers);
-            console.log(playerNumbers);
-        });
+       
        /* var randomNum = Math.floor(Math.random()*4)+1;
         num.push(randomNum);
 
@@ -41,6 +29,16 @@ $(document).ready(function(){
         }*/
     }
 
+    $(".piece").click(function(){
+
+        selectPieceAndCheck($(this).attr("class").split(' ')[1]);
+
+        randomNum = Math.floor(Math.random()*4)+1;
+        simonNumbers.push(randomNum);
+        
+        
+        
+    });
 
     function selectPiece(randomNum){
 
@@ -80,12 +78,19 @@ $(document).ready(function(){
             playerNumbers.push(4);
         }
 
-
+        console.log(simonNumbers);
+            console.log(playerNumbers);
+            
+        console.log(playerNumbers[0]);
         for(var i=0;i<simonNumbers.length;i++){
-            if(simonNumbers[i]!==playerNumbers[i]){
-                start = false;
+            if(simonNumbers[i]==playerNumbers[i]){
+                start = true;
+                console.log(simonNumbers[i]+" "+playerNumbers[i]);
+                setTimeout(function(){selectPiece(simonNumbers[i]);}, 300);
             }
         }
     }
+
+    
 
 });
