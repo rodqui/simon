@@ -4,41 +4,43 @@ $(document).ready(function(){
 
 
     var start = true;
-    var simonNumbers = [];
-    var playerNumbers = [];
-
+    var simonSequence = [];
     
+    var randomNum; 
+    var contPlayer = 0;
 
 
     if(start){
 
-        var randomNum = Math.floor(Math.random()*4)+1;
-        simonNumbers.push(randomNum);
+        
+        selectPiece(pushPlayer());
 
-        selectPiece(randomNum);
-
-       
-       /* var randomNum = Math.floor(Math.random()*4)+1;
-        num.push(randomNum);
-
-        var piece = prompt("numero: ");
-        for(var i=0;i<num.length;i++){
-            if(numplayer[i]==num[i]){
-
-            }
-        }*/
     }
 
     $(".piece").click(function(){
 
-        selectPieceAndCheck($(this).attr("class").split(' ')[1]);
+        var pieceNumber = $(this).attr("class").split(' ')[1].substring(7,6);
+        insertPiece(pieceNumber);
+        console.log(pieceNumber);
+        pushPlayer();
+        setTimeout(function(){
+            showOldPiecesAndNews();
+        },2000);
 
-        randomNum = Math.floor(Math.random()*4)+1;
-        simonNumbers.push(randomNum);
         
         
         
     });
+
+
+    function pushPlayer(){
+        randomNum = Math.floor(Math.random()*4)+1;
+        simonSequence.push(randomNum);
+
+        return randomNum;
+    }
+
+
 
     function selectPiece(randomNum){
 
@@ -66,31 +68,57 @@ $(document).ready(function(){
         }
         
     }
-    function selectPieceAndCheck(piece){
 
-        if(piece==="piece-1"){
-            playerNumbers.push(1);
-        }else if(piece==="piece-2"){
-            playerNumbers.push(2);
-        }else if(piece==="piece-3"){
-            playerNumbers.push(3);
-        }else if(piece==="piece-4"){
-            playerNumbers.push(4);
-        }
 
-        console.log(simonNumbers);
-            console.log(playerNumbers);
-            
-        console.log(playerNumbers[0]);
-        for(var i=0;i<simonNumbers.length;i++){
-            if(simonNumbers[i]==playerNumbers[i]){
-                start = true;
-                console.log(simonNumbers[i]+" "+playerNumbers[i]);
-                setTimeout(function(){selectPiece(simonNumbers[i]);}, 300);
+    function insertPiece(piece){
+
+        
+        for(var i=0;i<simonSequence.length;i++){
+
+
+            if(contPlayer<=simonSequence.length){
+                if(piece==simonSequence[i]){
+                    pushPlayer();
+                    contPlayer++;
+                }
             }
+            
+    
         }
+       
+     
+        
     }
 
-    
+    function compareSequencePlayerVsCPU(){
+
+    }
+
+    async function showOldPiecesAndNews(){
+
+                    for(var i=0;i<simonSequence.length;i++){
+                        console.log(simonSequence);
+                        selectPiece(simonSequence[i]);
+                        await sleep(500);
+                   
+                    }
+
+    }
+
+
+    function sleep(ms){
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
 
 });
+
+
+/*for(var i=0;i<simonNumbers.length;i++){
+    if(simonNumbers[i]==playerNumbers[i]){
+        start = true;
+        console.log(simonNumbers[i]+" - "+playerNumbers[i]);
+        
+        selectPiece(simonNumbers[i]);
+    }
+}*/

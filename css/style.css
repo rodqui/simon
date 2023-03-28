@@ -14,9 +14,9 @@
     position: relative;
     width: 400px;
     height: 400px;
-    background: #000;
+    background: #2D2727;
     border-radius: 50%;
-    border: 10px solid;
+    border: 10px solid #2D2727;
     overflow: hidden; /*every element that stands out hides*/
 }
 
@@ -40,12 +40,12 @@
 }
 
 .piece-3{
-    background-color: #E21818;
+    background-color: #9F0000;
     top: 200px;
     left: 200px;
 }
 .piece-4{
-    background-color: #2D2727;
+    background-color: #000;
     top: 200px;
     left: 0px;
 }
@@ -54,7 +54,7 @@
     position: relative;
     width: 200px;
     height: 200px;
-    background-color: #000;
+    background-color: #2D2727;
     margin:90PX auto;
     border-radius: 50%;
     text-align: center;
