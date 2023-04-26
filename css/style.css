@@ -4,6 +4,7 @@
 }
 
 
+
 .container{
     width: max-content;
     margin: 200px auto;
@@ -77,21 +78,21 @@
 }
 
 .piece-1-press{
-    background-color: #8F43EE;
+    background-color: #fff;
     opacity: 0.5;
 }
 
 .piece-2-press{
-    background-color: #66347F;
+    background-color: #fff;
     opacity: 0.5;
 }
 
 .piece-3-press{
-    background-color: #E21818;
+    background-color: #fff;
     opacity: 0.5;
 }
 
 .piece-4-press{
-    background-color: #2D2727;
+    background-color: #fff;
     opacity: 0.5;
 }

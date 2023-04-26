@@ -3,39 +3,71 @@ $(document).ready(function(){
 
 
 
-    var start = true;
+    var start = false;
     var simonSequence = [];
     
     var randomNum; 
     var contPlayer = 0;
-
+    let canClick = false;
+    let audio = document.getElementById("sound1");
+    
 
     if(start){
 
         
-        selectPiece(pushPlayer());
+        selectPiece(randomPiece());
 
     }
+    
+ 
+    
+    simonSequence.push(randomPiece());
+ 
+
+    /*we do a copy from simonSequence*/
+    let secondSimonSequence = [...simonSequence];
 
     $(".piece").click(function(){
 
-        var pieceNumber = $(this).attr("class").split(' ')[1].substring(7,6);
-        insertPiece(pieceNumber);
-        console.log(pieceNumber);
-        pushPlayer();
-        setTimeout(function(){
-            showOldPiecesAndNews();
-        },2000);
+        if(!canClick) return;
 
+
+        var pieceNumber = $(this).attr("class").split(' ')[1].substring(7,6);
+        //insertPiece(pieceNumber);
         
-        
-        
+        //pushPlayer();
+        /*setTimeout(function(){
+            showOldPiecesAndNews();
+        },2000);*/
+
+       const expectedPanel = secondSimonSequence.shift();
+       console.log("mirando second: "+secondSimonSequence);
+       if(expectedPanel == pieceNumber){
+            if(secondSimonSequence == 0){
+                
+                
+                
+                simonSequence.push(randomPiece()); //next round
+                secondSimonSequence = [...simonSequence];
+                
+              
+                startSimonSequenceFlash();
+         
+            }
+
+
+       }else{
+            alert("game over");
+       }
+        console.log(pieceNumber);
+        audio.play();
+    
     });
 
-
-    function pushPlayer(){
+    
+    function randomPiece(){
         randomNum = Math.floor(Math.random()*4)+1;
-        simonSequence.push(randomNum);
+        //simonSequence.push(randomNum);
 
         return randomNum;
     }
@@ -48,8 +80,11 @@ $(document).ready(function(){
         if("piece-"+randomNum==="piece-1"){
             setTimeout(function(){
                 $(".piece-1").toggleClass("piece-1-press");
+                
             },100);
             $(".piece-1").toggleClass("piece-1-press");
+        
+         
         }else if("piece-"+randomNum==="piece-2"){
             setTimeout(function(){
                 $(".piece-2").toggleClass("piece-2-press");
@@ -78,7 +113,7 @@ $(document).ready(function(){
 
             if(contPlayer<=simonSequence.length){
                 if(piece==simonSequence[i]){
-                    pushPlayer();
+                    randomPiece();
                     contPlayer++;
                 }
             }
@@ -90,18 +125,27 @@ $(document).ready(function(){
         
     }
 
-    function compareSequencePlayerVsCPU(){
+    
 
+    async function startSimonSequenceFlash(){
+        canClick = false;
+        for(var i=0;i<simonSequence.length;i++){
+            console.log("tamaño araay"+ i+" hay"+simonSequence[i]);
+            selectPiece(simonSequence[i]);
+           
+            
+            await sleep(500);
+            
+            
+        }
+        canClick = true; //When all panels are flashed, player can click panel
+        
     }
 
     async function showOldPiecesAndNews(){
 
-                    for(var i=0;i<simonSequence.length;i++){
-                        console.log(simonSequence);
-                        selectPiece(simonSequence[i]);
-                        await sleep(500);
-                   
-                    }
+                  startSimonSequenceFlash();
+                  
 
     }
 
@@ -111,14 +155,25 @@ $(document).ready(function(){
     }
 
 
+    
+
+   
+    startSimonSequenceFlash();
+
+    console.log(simonSequence);
+    console.log(secondSimonSequence);
+
 });
 
 
-/*for(var i=0;i<simonNumbers.length;i++){
+/*
+
+for(var i=0;i<simonNumbers.length;i++){
     if(simonNumbers[i]==playerNumbers[i]){
         start = true;
         console.log(simonNumbers[i]+" - "+playerNumbers[i]);
         
         selectPiece(simonNumbers[i]);
     }
-}*/
+}
+*/
